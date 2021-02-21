@@ -1,17 +1,10 @@
-
-import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import norm
 import tensorflow as tf
-
+from tensorflow.keras.datasets import mnist
 from tensorflow.keras.layers import Input, Dense, Conv2D, \
     Conv2DTranspose, LeakyReLU, Flatten, Dropout, BatchNormalization, Reshape
-from tensorflow.keras.models import Sequential, Model
-from tensorflow.keras import backend as K
-from tensorflow.keras import metrics
 from tensorflow.keras.losses import MeanSquaredError
-from tensorflow.keras.datasets import mnist
-import numpy as np
+from tensorflow.keras.models import Sequential, Model
 
 # hparams
 batch_size = 64
@@ -24,7 +17,7 @@ epsilon_std = 1.0
 def create_encoder():
     model = Sequential()
     model.add(Conv2D(32, (5, 5), strides=(2, 2), padding='same',
-                            input_shape=original_dim))
+                     input_shape=original_dim))
     model.add(LeakyReLU())
     model.add(Dropout(0.3))
 
@@ -82,7 +75,7 @@ if __name__ == '__main__':
 
     output = decoder(encoder(x))
     ae = Model(x, output)
-    ae.compile(optimizer='rmsprop', loss='binary_crossentropy')
+    ae.compile(optimizer='rmsprop', loss=MeanSquaredError())
 
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -99,24 +92,4 @@ if __name__ == '__main__':
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test, cmap='viridis')
     plt.colorbar()
     plt.savefig('latent_space.png')
-    plt.show()
-
-    n = 15
-    digit_size = 28
-    figure = np.zeros((digit_size * n, digit_size * n))
-
-    grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
-    grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
-
-    for i, yi in enumerate(grid_x):
-        for j, xi in enumerate(grid_y):
-            z_sample = np.array([[xi, yi]])
-            x_decoded = decoder.predict(z_sample)
-            digit = x_decoded[0].reshape(digit_size, digit_size)
-            figure[i * digit_size: (i + 1) * digit_size,
-            j * digit_size: (j + 1) * digit_size] = digit
-
-    plt.figure(figsize=(10, 10))
-    plt.imshow(figure, cmap='Greys_r')
-    plt.savefig('generated.png')
     plt.show()
