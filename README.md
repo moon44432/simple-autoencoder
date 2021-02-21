@@ -6,7 +6,7 @@ Convolution과 Transposed convolution을 활용한 간단한 오토인코더입�
 ## 이미지 샘플
 ![img_latent_space](latent_space.png)
 <br>
-위 그래프는 2차원 latent space 상의 숫자의 분포를 나타낸 것입니다. 분포의 모양 자체는 양호하나 AE 구조의 한계 상 굉장히 넓은 분포를 보이고 있습니다.
+위 그래프는 2차원 latent space 상의 데이터의 분포를 나타낸 것입니다. 모양 자체는 양호하나 AE 구조의 한계 상 굉장히 넓은 분포를 보이고 있습니다.
 
 ---
 
@@ -26,7 +26,7 @@ Convolution과 Transposed convolution을 활용한 간단한 오토인코더입�
 ---
 
 ## simple_ae.py
-네트워크를 구성하고 MNIST 데이터셋을 학습합니다. 학습이 완료되면 모델을 저장하고 latent space 상의 분포를 출력합니다.
+네트워크를 구성하고 MNIST 데이터셋을 학습합니다. 학습이 완료되면 모델을 저장하고 latent space 상의 데이터 분포를 출력합니다.
 
 ## generate.py
 모델을 불러오고 사용자의 입력을 받아 숫자를 생성합니다.
